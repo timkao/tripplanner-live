@@ -14,7 +14,7 @@ Map.prototype.init = function(){
   // get the maps div's HTML obj
   var map_canvas_obj = document.getElementById(this.id);
   // initialize a new Google Map with the options
-  var map = new google.maps.Map(map_canvas_obj, mapOptions);
+  this.targetMap = new google.maps.Map(map_canvas_obj, mapOptions);
   // Add the marker to the map
   var marker = new google.maps.Marker({
       position: myLatlng,
