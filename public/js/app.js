@@ -1,5 +1,11 @@
 $('document').ready(function(){
   var map = new Map('map');
+  var markerArr = []
+  var db = {
+    hotel: hotels,
+    restaurant: restaurants,
+    activity: activities
+  }
 
   hotels.forEach(function(hotel){
     $('#hotels').append(`<option id=${hotel.id}>${hotel.name}</option>`)
@@ -36,16 +42,35 @@ $('document').ready(function(){
       <br clear='both' /></li>`)
 
       // create Mark
-      var myLatlng = new google.maps.LatLng(40.705189,-74.009209);
+      // 1. search for hotel location
+      var info = db[target].filter(function(item) {
+        return item.name === name
+      })[0]
+
+      var myLatlng = new google.maps.LatLng(info.place.location[0], info.place.location[1]);
+      console.log(myLatlng)
       var marker = new google.maps.Marker({
         position: myLatlng,
-        title:"Hello World!"
+        title: name
       });
       marker.setMap(map.targetMap)
-      console.log(map.targetMap)
-
+      markerArr.push(marker)
     }
 
   })
+
+  $('#day-details').on('click', 'button', function(){
+    $(this).parent()[0].remove()
+    var removeMarker = $(this).prev()[0].innerText
+    markerArr.forEach(function(mark){
+      if (mark.title === removeMarker) {
+        mark.setMap(null)
+      }
+    })
+  })
+
+
+
+
 
 });

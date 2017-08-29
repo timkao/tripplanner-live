@@ -13,10 +13,11 @@
 <script src='/vendor/jquery/dist/jquery.js'></script>
 <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_API_KEY }}&sensor=true"></script>
 <script src='/public/js/Map.js'></script>
+<script src='/public/js/app.js'></script>
 <script>
   var hotels = {{ hotels | dump | safe }};
   var restaurants = {{ restaurants | dump | safe }};
   var activities = {{ activities | dump | safe }};
 </script>
-<script src='/public/js/app.js'></script>
+
 {% endblock %}
