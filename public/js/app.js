@@ -6,7 +6,22 @@ $('document').ready(function(){
     restaurant: restaurants,
     activity: activities
   }
+  var allData = {
+    hotel: [],
+    restaurant: [],
+    activity: []
+  }
 
+  $('#day-details').data('1', {
+    hotel: [],
+    restaurant: [],
+    activity: []
+  })
+  $('#day-details').data('2', {
+    hotel: [],
+    restaurant: [],
+    activity: []
+  })
   hotels.forEach(function(hotel){
     $('#hotels').append(`<option id=${hotel.id}>${hotel.name}</option>`)
   })
@@ -34,12 +49,28 @@ $('document').ready(function(){
       }
     }
 
+
+
     // not duplicate => create element & create Mark
     if (currentlist.length === 0 || !temp.includes(name)) {
-
+      var dayData = `<li class='list-group-item'><span>${name}</span><button class='btn btn-warning btn-sm pull-right'>x</button>
+      <br clear='both' /></li>`;
       // create element
-      $(`#${target}-day`).append(`<li class='list-group-item'><span>${name}</span><button class='btn btn-warning btn-sm pull-right'>x</button>
-      <br clear='both' /></li>`)
+      $(`#${target}-day`).append(dayData);
+
+      //$('#day-details').data()
+
+      if (target === 'hotel') {
+        $('#day-details').data($('.active').text().trim())['hotel'].push(dayData)
+      }
+      else if (target === 'restaurant') {
+        $('#day-details').data($('.active')[0].innerText, {'restaurant': [dayData]});
+      }
+      else if (target === 'activity') {
+        $('#day-details').data($('.active')[0].innerText, {'activity': [dayData]});
+      }
+
+      console.log($('#day-details').data());
 
       // create Mark
       // 1. search for hotel location
@@ -48,7 +79,7 @@ $('document').ready(function(){
       })[0]
 
       var myLatlng = new google.maps.LatLng(info.place.location[0], info.place.location[1]);
-      console.log(myLatlng)
+      // console.log(myLatlng)
       var marker = new google.maps.Marker({
         position: myLatlng,
         title: name
@@ -70,6 +101,34 @@ $('document').ready(function(){
   })
 
 
+  $('#dayAddBtn').on('click', function() {
+    var next = $('.nav li').length + 1;
+    $('.nav').append(`<li><a href='#'>${next}</a></li>`);
+    $('#day-details').data(next, {
+    hotel: [],
+    restaurant: [],
+    activity: []
+  })
+  });
+
+
+  // $('#dayRmBtn').on('click', function() {
+
+  // });
+
+  $('.nav').on('click', 'li', function() {
+    if (this.className !== 'class') {
+      $('.active').removeClass('active');
+      $(this).addClass('active');
+    }
+
+
+
+
+    // $('#day-details').data(`day`, );
+
+
+  });
 
 
 
